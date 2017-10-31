@@ -5,28 +5,52 @@ export default class Player extends Sprite {
 		super(ctx, x, y, h, w);
 
 		this.movement = 5;
-		this.health = 100;
+		this.score = 0;
 
 	}
 
-	updateHealth(health){
-		this.health += 10;
+	updateScore(score){
+		this.score += 10;
 	}
 
-	reduceHealth(){
-		this.health -= 10;
+	reduceScore(){
+		this.score -= 10;
 	}
 
-	getHealth(){
-		return this.health;
+	getScore(){
+		return this.score;
 	}
 
-	create(color) {
-		this.color = color;
-		this.ctx.fillStyle = this.color;
-		this.ctx.beginPath();
-		this.ctx.rect(this.x, this.y, this.width, this.height);	
-		this.ctx.closePath();
-		this.ctx.fill();
-	};	
+	moveLeft(){
+		this.x -= this.movement;
+		if(this.x <= 0) {
+			this.x = 0;
+		}
+	}
+
+	moveRight(){
+		this.x += this.movement;
+		if((this.x + this.width) >= 500) {
+			this.x = (500 - this.width);
+		}
+	}
+
+	moveUp(){
+		this.y -= this.movement;
+		if(this.y <= 0) {
+			this.y = 0;
+		}
+	}
+
+	moveDown(){
+		this.y += this.movement;
+		if((this.y + this.height) >= 500) {
+			this.y = (500 - this.height);
+		}
+	}
+
+	render(){
+		this.create('#f00');
+	}
+
 };

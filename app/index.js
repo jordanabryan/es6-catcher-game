@@ -1,8 +1,10 @@
 import Sprite from './components/Sprite';
 import Player from './components/Player';
 import Enemy from './components/Enemy';
+import TextDisplay from './components/TextDisplay';
+import GameOver from './components/GameOver';
 
-export class Game {
+class Game {
 	constructor(options){
 
 		this.id = options.id;
@@ -10,18 +12,31 @@ export class Game {
 		this.width = options.width;
 
 		this.keys = [];
-		
+
+		this.gameOverCheck = false;
+		this.startGame = false;
+		this.pause = false;
+		this.playing = false;
+		this.level = 1;
+		this.timeLeft = 60;
+		this.interval;
 
 		this.canvas = document.getElementById(options.id);
 		this.ctx = this.canvas.getContext('2d');
 
-		this.player = new Player(this.ctx, 10, 10, 50, 50);
+		this.player = new Player(this.ctx, 300, 460, 50, 25);
 
 		this.enemies = [
-			new Enemy(this.ctx, 350, 10, 50, 50),
-			new Enemy(this.ctx, 10, 350, 50, 50)
+			new Enemy(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
+			new Enemy(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
+			new Enemy(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
+			new Enemy(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49)
 		];
 		
+		this.score = new TextDisplay(this.ctx, 10, 20, 50, 50);
+		this.timeDisplay = new TextDisplay(this.ctx, 10, 40, 50, 50);
+		this.gameOver = new GameOver(this.ctx, 0, 0, this.width, this.height);
+
 	}
 
 	init(){
@@ -29,6 +44,8 @@ export class Game {
 
 		window.addEventListener('keydown', this.onKeyDown.bind(this));
 		window.addEventListener('keyup', this.onKeyUp.bind(this));
+
+		this.interval = setInterval(() => this.timeLeft--, 1000);
 
 		(function animloop(){
 			_this.animation = window.requestAnimationFrame(animloop);
@@ -47,19 +64,16 @@ export class Game {
 	collisionCheck(){
 
 		if(this.enemies.length){
-
 			for(var i = 0; i < this.enemies.length; i++){
 				if (
 					this.enemies[i].x < (this.player.x + this.player.width) && 
 					(this.enemies[i].x + this.enemies[i].width) > this.player.x &&
 					this.enemies[i].y < (this.player.y + this.player.height) && 
-					(this.enemies[i].y + this.enemies[i].height) > this.player.y
+					(this.enemies[i].y + this.enemies[i].height) > this.player.y &&
+					this.enemies[i].getActive() === true
 				){
-					this.player.reduceHealth();
-
-
-					console.log(this.player.getHealth());
-
+					this.player.updateScore();
+					this.enemies[i].resetSprite();
 				}
 			}
 		}
@@ -89,13 +103,19 @@ export class Game {
 	}
 	
 	draw(){
-
-		this.collisionCheck();
-		this.player.create('#f00');
-		this.enemies.forEach(function(enemy){
-			enemy.create('#0f0');
-		});
-		this.movement();
+		if(this.timeLeft <= 0){
+			this.gameOver.render(this.player.getScore());
+		} else {
+			this.collisionCheck();
+			this.player.render();
+			this.enemies.forEach(function(enemy){
+				enemy.moveSprite();
+				enemy.render();
+			});
+			this.movement();
+			this.score.createText('20px Calibri', '#000', 'left', `score: ${this.player.getScore()}`);
+			this.timeDisplay.createText('20px Calibri', '#000', 'left', `time left: ${this.timeLeft}`);
+		}
 	};
 
 	loop(){

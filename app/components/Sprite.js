@@ -1,10 +1,11 @@
 export default class Sprite {
-	constructor(ctx, x, y, h, w) {
+	constructor(ctx, x, y, w, h) {
 		this.ctx = ctx;
 		this.x = x;
 		this.y = y;
 		this.height = h;
 		this.width = w;
+		this.ang = 1;
 	}
 
 	create(color) {
@@ -16,32 +17,27 @@ export default class Sprite {
 		this.ctx.fill();
 	};
 
-	moveLeft(){
-		this.x -= this.movement;
-		if(this.x <= 0) {
-			this.x = 0;
-		}
+	createSpriteImage(img, srcx, srcy, srcwidth, srcheight){
+		this.src = img;
+		this.srcx = srcx;
+		this.srcy = srcy;
+		this.srcwidth = srcwidth;
+		this.srcheight = srcheight;
+		
+		this.img = new Image();
+		this.img.src = this.src;
+		this.ctx.drawImage(this.img, this.srcx, this.srcy, this.srcwidth, this.srcheight, this.x, this.y, this.width, this.height);
+	};
+	
+	createText(style, color, align, content){
+		this.style = style || "15px Calibri";
+		this.color = color || '#fff';
+		this.align = align || 'center';
+		this.content = content;
+		
+		this.ctx.font = this.style;
+		this.ctx.fillStyle = this.color;
+		this.ctx.textAlign = this.align;
+		this.ctx.fillText(this.content, this.x, this.y);
 	}
-
-	moveRight(){
-		this.x += this.movement;
-		if((this.x + this.width) >= 500) {
-			this.x = (500 - this.width);
-		}
-	}
-
-	moveUp(){
-		this.y -= this.movement;
-		if(this.y <= 0) {
-			this.y = 0;
-		}
-	}
-
-	moveDown(){
-		this.y += this.movement;
-		if((this.y + this.height) >= 500) {
-			this.y = (500 - this.height);
-		}
-	}
-
 };
