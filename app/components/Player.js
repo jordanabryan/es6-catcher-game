@@ -35,20 +35,6 @@ export default class Player extends Sprite {
 		}
 	}
 
-	moveUp(){
-		this.y -= this.movement;
-		if(this.y <= 0) {
-			this.y = 0;
-		}
-	}
-
-	moveDown(){
-		this.y += this.movement;
-		if((this.y + this.height) >= 500) {
-			this.y = (500 - this.height);
-		}
-	}
-
 	render(){
 		this.create('#f00');
 	}

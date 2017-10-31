@@ -17,7 +17,7 @@ export default class Sprite {
 		this.ctx.fill();
 	};
 
-	createSpriteImage(img, srcx, srcy, srcwidth, srcheight){
+	createSpriteImage(img, srcx, srcy, srcwidth, srcheight, x, y, width, height){
 		this.src = img;
 		this.srcx = srcx;
 		this.srcy = srcy;

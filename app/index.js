@@ -1,6 +1,6 @@
 import Sprite from './components/Sprite';
 import Player from './components/Player';
-import Enemy from './components/Enemy';
+import Egg from './components/Egg';
 import TextDisplay from './components/TextDisplay';
 import GameOver from './components/GameOver';
 
@@ -27,10 +27,10 @@ class Game {
 		this.player = new Player(this.ctx, 300, 460, 50, 25);
 
 		this.enemies = [
-			new Enemy(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
-			new Enemy(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
-			new Enemy(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
-			new Enemy(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49)
+			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
+			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
+			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
+			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49)
 		];
 		
 		this.score = new TextDisplay(this.ctx, 10, 20, 50, 50);
@@ -85,17 +85,9 @@ class Game {
 			this.player.moveLeft();
 		}
 
-		if((38 in this.keys && this.keys[38])){
-			this.player.moveUp();
-		}
-
 		if((39 in this.keys && this.keys[39])){
 			this.player.moveRight();
-		}
-
-		if((40 in this.keys && this.keys[40])){
-			this.player.moveDown();
-		}		
+		}	
 	}
 
 	clear(){
