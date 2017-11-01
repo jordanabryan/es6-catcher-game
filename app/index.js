@@ -1,6 +1,7 @@
 import Sprite from './components/Sprite';
 import Player from './components/Player';
 import Egg from './components/Egg';
+import Chicken from './components/Chicken';
 import TextDisplay from './components/TextDisplay';
 import GameOver from './components/GameOver';
 
@@ -33,6 +34,7 @@ class Game {
 			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49)
 		];
 		
+		this.chicken = new Chicken(this.ctx, -70, 100, 59, 73);
 		this.score = new TextDisplay(this.ctx, 10, 20, 50, 50);
 		this.timeDisplay = new TextDisplay(this.ctx, 10, 40, 50, 50);
 		this.gameOver = new GameOver(this.ctx, 0, 0, this.width, this.height);
@@ -100,6 +102,7 @@ class Game {
 		} else {
 			this.collisionCheck();
 			this.player.render();
+			this.chicken.render();
 			this.enemies.forEach(function(enemy){
 				enemy.moveSprite();
 				enemy.render();
