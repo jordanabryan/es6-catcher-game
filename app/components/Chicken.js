@@ -1,7 +1,7 @@
 import Sprite from './Sprite';
 
 export default class Chicken extends Sprite {
-	constructor(ctx, x, y, h, w) {
+	constructor(ctx, x, y, h, w, d) {
 		super(ctx, x, y, h, w);
 
 		this.src = '../../assets/chicken-sprite.png';

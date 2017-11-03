@@ -27,14 +27,31 @@ class Game {
 
 		this.player = new Player(this.ctx, 300, 460, 50, 25);
 
-		this.enemies = [
-			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
-			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
-			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49),
-			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 40, 49)
+		this.eggs = [
+			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 20, 24.5),
+			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 20, 24.5),
+			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 20, 24.5),
+			new Egg(this.ctx, Math.floor(Math.random() * 500), -Math.floor(Math.random() * 100) -50, 20, 24.5)
 		];
+
+		// this.chikens = [
+		// 	new Chicken(this.ctx, -70, 10, 59, 73),
+		// 	new Chicken(this.ctx, 70, 100, 59, 73),
+		// 	new Chicken(this.ctx, 300, 90, 59, 73),
+		// 	new Chicken(this.ctx, 500, 50, 59, 73),
+		// ];
+
+		this.chickens = [
+			new Chicken(this.ctx, -70, 10, 59, 73)
+		];
+
+		this.chickenInterval = setInterval(() => {
+			let ypos = Math.floor((Math.random() * 200) + 1);
+			this.chickens && this.chickens.length < 5 ? this.chickens.push(new Chicken(this.ctx, -70, ypos, 59, 73)) : null;
+		}, 2500);
+
 		
-		this.chicken = new Chicken(this.ctx, -70, 100, 59, 73);
+		// this.chicken = new Chicken(this.ctx, -70, 100, 59, 73);
 		this.score = new TextDisplay(this.ctx, 10, 20, 50, 50);
 		this.timeDisplay = new TextDisplay(this.ctx, 10, 40, 50, 50);
 		this.gameOver = new GameOver(this.ctx, 0, 0, this.width, this.height);
@@ -65,17 +82,17 @@ class Game {
 
 	collisionCheck(){
 
-		if(this.enemies.length){
-			for(var i = 0; i < this.enemies.length; i++){
+		if(this.eggs.length){
+			for(var i = 0; i < this.eggs.length; i++){
 				if (
-					this.enemies[i].x < (this.player.x + this.player.width) && 
-					(this.enemies[i].x + this.enemies[i].width) > this.player.x &&
-					this.enemies[i].y < (this.player.y + this.player.height) && 
-					(this.enemies[i].y + this.enemies[i].height) > this.player.y &&
-					this.enemies[i].getActive() === true
+					this.eggs[i].x < (this.player.x + this.player.width) && 
+					(this.eggs[i].x + this.eggs[i].width) > this.player.x &&
+					this.eggs[i].y < (this.player.y + this.player.height) && 
+					(this.eggs[i].y + this.eggs[i].height) > this.player.y &&
+					this.eggs[i].getActive() === true
 				){
 					this.player.updateScore();
-					this.enemies[i].resetSprite();
+					this.eggs[i].resetSprite();
 				}
 			}
 		}
@@ -102,10 +119,15 @@ class Game {
 		} else {
 			this.collisionCheck();
 			this.player.render();
-			this.chicken.render();
-			this.enemies.forEach(function(enemy){
-				enemy.moveSprite();
-				enemy.render();
+			// this.chicken.render();
+			this.eggs.forEach(function(egg){
+				egg.moveSprite();
+				egg.render();
+			});
+
+			this.chickens.forEach(function(chicken){
+				chicken.moveSprite();
+				chicken.render();
 			});
 			this.movement();
 			this.score.createText('20px Calibri', '#000', 'left', `score: ${this.player.getScore()}`);

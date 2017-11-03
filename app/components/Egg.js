@@ -7,6 +7,8 @@ export default class Egg extends Sprite {
 		this.src = '../../assets/sprite-sheet.png';
 		this.srcx = 0;
 		this.srcy = 0;
+		this.width = 20;
+		this.height = 24.5;
 		this.srcwidth = 47;
 		this.srcheight = 66;
 		this.movement = Math.floor(Math.random() * 5);
@@ -17,19 +19,19 @@ export default class Egg extends Sprite {
 		return this.active;
 	}
 
-	updateSrcPosition(x, y, width, height){
+	updateSrcPosition(srcx, srcy, width, height, srcwidth, srcheight){
 		this.width = width;
 		this.height = height;
-		this.srcx = x;
-		this.srcy = y;
-		this.srcwidth = width;
-		this.srcheight = height;
+		this.srcx = srcx;
+		this.srcy = srcy;	
+		this.srcwidth = srcwidth;
+		this.srcheight = srcheight;
 	}
 
 	resetSprite(){
-		this.updateSrcPosition(0, 0, 47, 66);
+		this.updateSrcPosition(0, 0, 20, 24.5, 47, 66);
 		this.active = true;
-		this.height = 50;
+		// this.height = 50;
 		this.x = Math.floor(Math.random() * 450);
 		this.y = -Math.floor(Math.random() * 100) -50;
 	}
@@ -41,7 +43,7 @@ export default class Egg extends Sprite {
 			this.height = 29;
 			this.y = 480;
 
-			this.updateSrcPosition(47, 0, 61, 16);
+			this.updateSrcPosition(47, 0, 61, 16, 61, 16);
 
 			setTimeout(() => {
 				this.resetSprite();	
